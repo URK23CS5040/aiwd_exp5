@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quiz App with Timer</title>
+</head>
+<body>
+
+<h2>JavaScript Quiz</h2>
+<p>Time Remaining: <span id="timer">10</span> seconds</p>
+<p id="warning" style="color:red;"></p>
+
+<form id="quizForm">
+
+    <p>1. What is the capital of France?</p>
+    <input type="radio" name="q1" value="a"> Berlin<br>
+    <input type="radio" name="q1" value="b"> Paris<br>
+    <input type="radio" name="q1" value="c"> Rome<br>
+
+    <p>2. 2 + 2 = ?</p>
+    <input type="radio" name="q2" value="a"> 3<br>
+    <input type="radio" name="q2" value="b"> 4<br>
+    <input type="radio" name="q2" value="c"> 5<br>
+
+    <p>3. Which language runs in browser?</p>
+    <input type="radio" name="q3" value="a"> Java<br>
+    <input type="radio" name="q3" value="b"> C++<br>
+    <input type="radio" name="q3" value="c"> JavaScript<br>
+
+    <p>4. HTML stands for?</p>
+    <input type="radio" name="q4" value="a"> Hyper Text Markup Language<br>
+    <input type="radio" name="q4" value="b"> High Text Machine Language<br>
+    <input type="radio" name="q4" value="c"> Home Tool Markup Language<br>
+
+    <p>5. CSS is used for?</p>
+    <input type="radio" name="q5" value="a"> Styling<br>
+    <input type="radio" name="q5" value="b"> Database<br>
+    <input type="radio" name="q5" value="c"> Server<br><br>
+
+    <button type="button" onclick="submitQuiz()">Submit</button>
+</form>
+
+<h3 id="result"></h3>
+
+<script>
+
+let timeLeft = 10;
+let timer = document.getElementById("timer");
+let warning = document.getElementById("warning");
+
+let countdown = setInterval(function() {
+    timeLeft--;
+    timer.textContent = timeLeft;
+
+    if (timeLeft === 5) {
+        warning.textContent = "Only 5 seconds remaining!";
+    }
+
+    if (timeLeft === 0) {
+        clearInterval(countdown);
+        submitQuiz();
+    }
+}, 1000);
+
+function submitQuiz() {
+
+    clearInterval(countdown);
+
+    let answers = {
+        q1: "b",
+        q2: "b",
+        q3: "c",
+        q4: "a",
+        q5: "a"
+    };
+
+    let score = 0;
+
+    for (let key in answers) {
+        let selected = document.querySelector(`input[name="${key}"]:checked`);
+        if (selected && selected.value === answers[key]) {
+            score++;
+        }
+    }
+
+    document.getElementById("result").textContent = 
+        "Final Score: " + score + " / 5";
+
+    // Disable all options
+    let inputs = document.querySelectorAll("input");
+    inputs.forEach(input => input.disabled = true);
+
+}
+
+</script>
+
+</body>
+</html>
